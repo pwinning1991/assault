@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.com/pwinning1991/assault.svg?branch=master)](https://travis-ci.com/pwinning1991/assault)
 # assault
 
 A simple CLI load testing tool.
