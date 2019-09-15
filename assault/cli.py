@@ -22,7 +22,7 @@ def display(results, json_file):
         # Print to Screen
         print("... Done!")
         print("--- Results ---")
-        print(f"Successful requests\t{results.succuess_requests()}")
+        print(f"Successful requests\t{results.successful_requests()}")
         print(f"Slowest            \t{results.slowest()}")
         print(f"Fastest            \t{results.fastest()}")
         print(f"Average            \t{results.average_time()}")
