@@ -2,7 +2,7 @@ langauge: python
 python: "3.7"
 
 install:
-  - pip install pipenv
+  - pip3.7 install pipenv
   - pipenv install
 
 script: python -m doctest assault/stats.py 
