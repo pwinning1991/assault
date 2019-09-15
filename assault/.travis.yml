@@ -1,0 +1,10 @@
+langauge: python
+matrix:
+  include:
+  - python: 3.7
+
+install:
+  - pip install pipenv
+  - pipenv install
+
+script: python -m doctest assault/stats.py 
