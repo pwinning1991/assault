@@ -1,4 +1,5 @@
-import click
+import click, sys, json
+from typing import IO
 from .http import assault
 from .stats import Results
 
@@ -9,15 +10,34 @@ from .stats import Results
 @click.option("--json-file", "-j", default=None, help="Path to ouput JSON file")
 @click.argument("url")
 def cli(requests, concurrency, json_file, url):
+    output_file = None
+    if json_file:
+        try:
+            output_file = open(json_file, "w")
+        except:
+            print(f"Unable to open file {json_file}")
+            sys.exit(1)
     total_time, request_dicts = assault(url, requests, concurrency)
     results = Results(total_time, request_dicts)
-    display(results, json_file)
+    display(results, output_file)
 
 
-def display(results, json_file):
+def display(results: Results, json_file: IO):
     if json_file:
         # Write to the file
-        print("We're writing to a JSON File")
+        json.dump(
+            {
+                "successful_requests": results.successful_requests(),
+                "slowest": results.slowest(),
+                "fastest": results.fastest(),
+                "total_time": results.total_time,
+                "Requests Per Minute": results.requests_per_minute(),
+                "Requests Per Second": results.requests_per_second(),
+            },
+            json_file,
+        )
+        json_file.close()
+        print("... Done!")
     else:
         # Print to Screen
         print("... Done!")
