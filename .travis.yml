@@ -5,4 +5,4 @@ install:
   - pip install pipenv
   - pipenv install
 
-script: python -m doctest assault/stats.py 
+script: python -m doctest -v assault/stats.py 
