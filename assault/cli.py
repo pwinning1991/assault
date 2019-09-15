@@ -1,5 +1,6 @@
 import click
 from .http import assault
+from .stats import Results
 
 
 @click.command()
@@ -8,12 +9,24 @@ from .http import assault
 @click.option("--json-file", "-j", default=None, help="Path to ouput JSON file")
 @click.argument("url")
 def cli(requests, concurrency, json_file, url):
-    print(f"Requests: {requests}")
-    print(f"Concurrecny: {concurrency}")
-    print(f"JSON File: {json_file}")
-    print(f"URL: {url}")
-    assault(url, requests, concurrency)
+    total_time, request_dicts = assault(url, requests, concurrency)
+    results = Results(total_time, request_dicts)
+    display(results, json_file)
 
 
-if __name__ == "__main__":
-    cli()
+def display(results, json_file):
+    if json_file:
+        # Write to the file
+        print("We're writing to a JSON File")
+    else:
+        # Print to Screen
+        print("... Done!")
+        print("--- Results ---")
+        print(f"Successful requests\t{results.succuess_requests()}")
+        print(f"Slowest            \t{results.slowest()}")
+        print(f"Fastest            \t{results.fastest()}")
+        print(f"Average            \t{results.average_time()}")
+        print(f"Total Time         \t{results.total_time}")
+        print(f"Requests Per Minute\t{results.requests_per_minute()}")
+        print(f"Requests Per Second\t{results.requests_per_second()}")
+
